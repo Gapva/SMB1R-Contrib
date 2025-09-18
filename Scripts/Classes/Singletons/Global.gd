@@ -1,5 +1,7 @@
 extends Node
 
+var data_dir: String = "%s/" % OS.get_executable_path().get_base_dir()
+
 var level_theme := "Overworld":
 	set(value):
 		level_theme = value
@@ -28,9 +30,9 @@ const lang_codes := ["en", "fr", "es", "de", "it", "pt", "pl", "tr", "ru", "jp",
 
 var rom_path := ""
 var rom_assets_exist := false
-const ROM_POINTER_PATH := "user://rom_pointer.smb"
-const ROM_PATH := "user://baserom.nes"
-const ROM_ASSETS_PATH := "user://resource_packs/BaseAssets"
+var ROM_POINTER_PATH: String = data_dir + "rom_pointer.smb"
+var ROM_PATH: String = data_dir + "baserom.nes"
+var ROM_ASSETS_PATH: String = data_dir + "resource_packs/BaseAssets"
 const ROM_PACK_NAME := "BaseAssets"
 const ROM_ASSETS_VERSION := 0
 
@@ -165,6 +167,7 @@ var p_switch_timer_paused := false
 var debug_mode := false
 
 func _ready() -> void:
+	print(OS.get_executable_path())
 	current_version = get_version_number()
 	get_server_version()
 	if OS.is_debug_build():
@@ -327,7 +330,7 @@ func close_freeze() -> void:
 	$Transition/Freeze.hide()
 	$Transition.hide()
 
-var recording_dir = "user://marathon_recordings/"
+var recording_dir = data_dir + "marathon_recordings/"
 
 func setup_discord_rpc() -> void:
 	DiscordRPC.app_id = 1331261692381757562

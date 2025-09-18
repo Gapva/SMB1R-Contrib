@@ -26,7 +26,7 @@ func get_resource(resource: Resource) -> Resource:
 	
 	if original_resource is Texture:
 		var new_resource = null
-		if path.contains("user://"): 
+		if path.contains(Global.data_dir + ""): 
 			new_resource = ImageTexture.create_from_image(Image.load_from_file(path))
 		else: 
 			new_resource = load(path)
@@ -64,7 +64,7 @@ func send_to_cache(resource_path := "", resource_to_cache: Resource = null) -> v
 
 func get_resource_path(resource_path := "") -> String:
 	for i in Settings.file.visuals.resource_packs:
-		var test = resource_path.replace("res://Assets/", "user://resource_packs/" + i + "/")
+		var test = resource_path.replace("res://Assets/", Global.data_dir + "resource_packs/" + i + "/")
 		if FileAccess.file_exists(test):
 			return test
 	return resource_path

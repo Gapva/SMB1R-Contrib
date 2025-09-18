@@ -359,7 +359,7 @@ func close_save_menu() -> void:
 	menu_open = false
 	current_state = EditorState.TILE_MENU
 
-const CUSTOM_LEVEL_DIR := "user://custom_levels/"
+var CUSTOM_LEVEL_DIR: String = Global.data_dir + "custom_levels/"
 
 func handle_tile_cursor() -> void:
 	Input.set_custom_mouse_cursor(null)

@@ -6,7 +6,7 @@ static var current_level_file := ""
 static var has_entered := false
 
 var selected_lvl_idx := 0
-const CUSTOM_LEVEL_PATH := "user://custom_levels/"
+var CUSTOM_LEVEL_PATH: String = Global.data_dir + "custom_levels/"
 const base64_charset := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
 func _ready() -> void:
@@ -55,7 +55,6 @@ func play_level() -> void:
 	await $CharacterSelect.selected
 	LevelTransition.level_to_transition_to = ("res://Scenes/Levels/LevelEditor.tscn")
 	Global.transition_to_scene("res://Scenes/Levels/LevelTransition.tscn")
-
 
 func delete_level() -> void:
 	DirAccess.remove_absolute(current_level_file)

@@ -1,6 +1,6 @@
 extends Node
 
-const SAVE_DIR := "user://saves/CAMPAIGN.sav"
+var SAVE_DIR: String = Global.data_dir + "saves/CAMPAIGN.sav"
 
 var visited_levels := "1000000000000000000000000000000010000000000000000000"
 
@@ -70,11 +70,11 @@ func write_save(campaign: String = Global.current_campaign, force := false) -> v
 	if Global.debugged_in and not force:
 		return
 	var save = null
-	DirAccess.make_dir_recursive_absolute("user://saves")
+	DirAccess.make_dir_recursive_absolute(Global.data_dir + "saves")
 	var save_json = {}
-	var path = "user://saves/" + campaign + ".sav"
+	var path = Global.data_dir + "saves/" + campaign + ".sav"
 	if FileAccess.file_exists(path):
-		save = FileAccess.open("user://saves/" + campaign + ".sav", FileAccess.READ)
+		save = FileAccess.open(Global.data_dir + "saves/" + campaign + ".sav", FileAccess.READ)
 		save_json = JSON.parse_string(save.get_as_text())
 		save.close()
 	else:
@@ -144,7 +144,7 @@ func clear_save() -> void:
 	visited_levels[0][0] = "1"
 	var save = SAVE_TEMPLATE.duplicate(true)
 	apply_save(save)
-	DirAccess.remove_absolute("user://saves/" + Global.current_campaign + ".sav")
+	DirAccess.remove_absolute(Global.data_dir + "saves/" + Global.current_campaign + ".sav")
 	write_save(Global.current_campaign)
 
 func clear_array(arr := []) -> void:
@@ -166,9 +166,9 @@ func get_level_idx(world_num := 1, level_num := 1) -> int:
 	return ((world_num - 1) * 4) + (level_num - 1)
 
 func load_achievements() -> void:
-	if FileAccess.file_exists("user://achievements.sav") == false:
+	if FileAccess.file_exists(Global.data_dir + "achievements.sav") == false:
 		write_achievements()
-	var file = FileAccess.open("user://achievements.sav", FileAccess.READ)
+	var file = FileAccess.open(Global.data_dir + "achievements.sav", FileAccess.READ)
 	var idx := 0
 	for i in file.get_as_text():
 		Global.achievements[idx] = i
@@ -177,6 +177,6 @@ func load_achievements() -> void:
 	file.close()
 
 func write_achievements() -> void:
-	var file = FileAccess.open("user://achievements.sav", FileAccess.WRITE)
+	var file = FileAccess.open(Global.data_dir + "achievements.sav", FileAccess.WRITE)
 	file.store_string(Global.achievements)
 	file.close()

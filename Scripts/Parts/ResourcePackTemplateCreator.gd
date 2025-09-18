@@ -12,15 +12,15 @@ const base_info_json := {
 func create_template() -> void:
 	get_directories("res://Assets", files, directories)
 	for i in directories:
-		DirAccess.make_dir_recursive_absolute(i.replace("res://Assets", "user://resource_packs/new_pack"))
+		DirAccess.make_dir_recursive_absolute(i.replace("res://Assets", Global.data_dir + "resource_packs/new_pack"))
 	for i in files:
 		var destination = i
 		if destination.contains("res://"):
-			destination = i.replace("res://Assets", "user://resource_packs/new_pack")
+			destination = i.replace("res://Assets", Global.data_dir + "resource_packs/new_pack")
 		else:
-			destination = i.replace("user://resource_packs/BaseAssets", "user://resource_packs/new_pack")
+			destination = i.replace(Global.data_dir + "resource_packs/BaseAssets", Global.data_dir + "resource_packs/new_pack")
 		print("Copying '" + i + "' to: '" + destination)
-		if i.contains(".bgm") or i.contains(".json") or i.contains("user://"):
+		if i.contains(".bgm") or i.contains(".json") or i.contains(Global.data_dir + ""):
 			DirAccess.copy_absolute(i, destination)
 		else:
 			var resource = load(i)
@@ -31,7 +31,7 @@ func create_template() -> void:
 				file.store_buffer(resource.data)
 				file.close()
 			
-	var file = FileAccess.open("user://resource_packs/new_pack/pack_info.json", FileAccess.WRITE)
+	var file = FileAccess.open(Global.data_dir + "resource_packs/new_pack/pack_info.json", FileAccess.WRITE)
 	file.store_string(JSON.stringify(base_info_json, "\t"))
 	file.close()
 	print("Done")
@@ -49,7 +49,7 @@ func get_files(base_dir := "", files := []) -> void:
 			i = i.replace(".import", "")
 			print(i)
 			var target_path = base_dir + "/" + i
-			var rom_assets_path = target_path.replace("res://Assets", "user://resource_packs/BaseAssets")
+			var rom_assets_path = target_path.replace("res://Assets", Global.data_dir + "resource_packs/BaseAssets")
 			if FileAccess.file_exists(rom_assets_path):
 				files.append(rom_assets_path)
 			else:

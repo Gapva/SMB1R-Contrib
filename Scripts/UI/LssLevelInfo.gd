@@ -14,7 +14,7 @@ func _ready() -> void:
 	set_process(false)
 
 func open(container: OnlineLevelContainer) -> void:
-	has_downloaded = FileAccess.file_exists("user://custom_levels/downloaded/" + container.level_id + ".lvl")
+	has_downloaded = FileAccess.file_exists(Global.data_dir + "custom_levels/downloaded/" + container.level_id + ".lvl")
 	show()
 	%Download.text = "DOWNLOAD"
 	if has_downloaded:
@@ -51,7 +51,7 @@ func close() -> void:
 	set_process(false)
 
 func download_level() -> void:
-	DirAccess.make_dir_recursive_absolute("user://custom_levels/downloaded")
+	DirAccess.make_dir_recursive_absolute(Global.data_dir + "custom_levels/downloaded")
 	var url = "https://levelsharesquare.com/api/levels/" + level_id + "/code"
 	print(url)
 	$DownloadLevel.request(url, [], HTTPClient.METHOD_GET)
@@ -68,7 +68,7 @@ func on_request_completed(result: int, response_code: int, headers: PackedString
 func level_downloaded(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	var string = body.get_string_from_utf8()
 	var json = JSON.parse_string(string)
-	var file = FileAccess.open("user://custom_levels/downloaded/" + level_id + ".lvl", FileAccess.WRITE)
+	var file = FileAccess.open(Global.data_dir + "custom_levels/downloaded/" + level_id + ".lvl", FileAccess.WRITE)
 	var data = null
 	if json.levelData.data is Array:
 		data = get_json_from_bytes(json.levelData.data)
@@ -81,7 +81,7 @@ func level_downloaded(result: int, response_code: int, headers: PackedStringArra
 	%OnlinePlay.grab_focus()
 
 func play_level() -> void:
-	var file_path := "user://custom_levels/downloaded/" + level_id + ".lvl"
+	var file_path := Global.data_dir + "custom_levels/downloaded/" + level_id + ".lvl"
 	var file = JSON.parse_string(FileAccess.open(file_path, FileAccess.READ).get_as_text())
 	LevelEditor.level_file = file
 	var info = file["Info"]

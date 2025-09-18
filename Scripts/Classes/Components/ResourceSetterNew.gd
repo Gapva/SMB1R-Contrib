@@ -256,11 +256,11 @@ func get_variation_json(json := {}) -> Dictionary:
 	return json
 
 func get_resource_pack_path(res_path := "", resource_pack := "") -> String:
-	var user_path := res_path.replace("res://Assets", "user://resource_packs/" + resource_pack)
-	user_path = user_path.replace("user://custom_characters/", "user://resource_packs/" + resource_pack + "/Sprites/Players/CustomCharacters/")
+	var user_path := res_path.replace("res://Assets", Global.data_dir + "resource_packs/" + resource_pack)
+	user_path = user_path.replace(Global.data_dir + "custom_characters/", Global.data_dir + "resource_packs/" + resource_pack + "/Sprites/Players/CustomCharacters/")
 	if FileAccess.file_exists(user_path):
-		if FileAccess.file_exists("user://resource_packs/" + resource_pack + "/config.json"):
-			config_to_use = JSON.parse_string(FileAccess.open("user://resource_packs/" + resource_pack + "/config.json", FileAccess.READ).get_as_text())
+		if FileAccess.file_exists(Global.data_dir + "resource_packs/" + resource_pack + "/config.json"):
+			config_to_use = JSON.parse_string(FileAccess.open(Global.data_dir + "resource_packs/" + resource_pack + "/config.json", FileAccess.READ).get_as_text())
 			if config_to_use == null:
 				Global.log_error("Error parsing Config File! (" + resource_pack + ")")
 				config_to_use = {}

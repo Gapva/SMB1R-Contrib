@@ -4,7 +4,7 @@ signal level_selected(container: CustomLevelContainer)
 
 const CUSTOM_LEVEL_CONTAINER = preload("uid://dt20tjug8m6oh")
 
-const CUSTOM_LEVEL_PATH := "user://custom_levels/"
+var CUSTOM_LEVEL_PATH: String = Global.data_dir + "custom_levels/"
 const base64_charset := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
 signal closed
@@ -41,10 +41,10 @@ func refresh() -> void:
 		if i is CustomLevelContainer:
 			i.queue_free()
 	containers.clear()
-	get_levels("user://custom_levels")
-	get_levels("user://custom_levels/downloaded")
+	get_levels(Global.data_dir + "custom_levels")
+	get_levels(Global.data_dir + "custom_levels/downloaded")
 
-func get_levels(path := "user://custom_levels") -> void:
+func get_levels(path := Global.data_dir + "custom_levels") -> void:
 	DirAccess.make_dir_recursive_absolute(path)
 	var idx := 0
 	for i in DirAccess.get_files_at(path):

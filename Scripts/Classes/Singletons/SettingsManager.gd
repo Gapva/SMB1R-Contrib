@@ -78,10 +78,10 @@ var file := {
 	}
 }
 
-const SETTINGS_DIR := "user://settings.cfg"
+var SETTINGS_DIR: String = Global.data_dir + "settings.cfg"
 
 func _enter_tree() -> void:
-	DirAccess.make_dir_absolute("user://resource_packs")
+	DirAccess.make_dir_absolute(Global.data_dir + "resource_packs")
 	load_settings()
 	await get_tree().physics_frame
 	apply_settings()
