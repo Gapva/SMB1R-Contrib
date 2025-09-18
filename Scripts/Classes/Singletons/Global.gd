@@ -1,6 +1,6 @@
 extends Node
 
-var data_dir: String = "%s/" % OS.get_executable_path().get_base_dir()
+var data_dir: String = "%s/user/" % OS.get_executable_path().get_base_dir()
 
 var level_theme := "Overworld":
 	set(value):
